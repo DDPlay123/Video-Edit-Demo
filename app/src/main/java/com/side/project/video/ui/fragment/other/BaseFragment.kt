@@ -27,6 +27,8 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
     open fun VB.initialize() {}
 
+    open fun VB.destroy() {}
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,6 +42,7 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding?.destroy()
         _binding = null
     }
 }
