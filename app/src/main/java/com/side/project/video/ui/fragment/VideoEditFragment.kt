@@ -1,10 +1,15 @@
 package com.side.project.video.ui.fragment
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.media.MediaMetadataRetriever
+import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
@@ -14,11 +19,11 @@ import com.google.android.exoplayer2.upstream.DefaultDataSource
 import com.google.android.exoplayer2.util.MimeTypes
 import com.side.project.video.R
 import com.side.project.video.databinding.FragmentVideoEditBinding
+import com.side.project.video.ui.adapter.ThumbnailAdapter
 import com.side.project.video.ui.fragment.other.BaseFragment
-import com.side.project.video.utils.Method
-import com.side.project.video.utils.VideoItem
-import com.side.project.video.utils.display
-import com.side.project.video.utils.gone
+import com.side.project.video.utils.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class VideoEditFragment : BaseFragment<FragmentVideoEditBinding>() {
     companion object {
@@ -27,6 +32,10 @@ class VideoEditFragment : BaseFragment<FragmentVideoEditBinding>() {
     }
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentVideoEditBinding
         get() = FragmentVideoEditBinding::inflate
+
+    private var retriever: MediaMetadataRetriever? = null
+    private lateinit var thumbnailAdapter: ThumbnailAdapter
+    private var thumbnailCount: Int = 0
 
     /**
      * 參數
@@ -44,6 +53,7 @@ class VideoEditFragment : BaseFragment<FragmentVideoEditBinding>() {
         arguments?.let {
             videoItem = Method.fromJsonString<VideoItem>(it.getString(Arg_Video_Item) ?: "") ?: VideoItem()
             if (videoItem.id == -1L) mActivity.onBackPressed()
+            thumbnailCount = videoItem.duration.toInt() / 1000
         }
     }
 
@@ -51,6 +61,7 @@ class VideoEditFragment : BaseFragment<FragmentVideoEditBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         setActionBar()
+        initializeRv()
         initializePlayer()
         setListener()
     }
@@ -66,6 +77,8 @@ class VideoEditFragment : BaseFragment<FragmentVideoEditBinding>() {
             it.release()
             player = null
         }
+        retriever?.release()
+        retriever = null
     }
 
     /**
@@ -138,6 +151,29 @@ class VideoEditFragment : BaseFragment<FragmentVideoEditBinding>() {
                 // Do not forget to attach the player to the view
                 playerView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
                 playerView.player = it
+            }
+        }
+    }
+
+    private fun initializeRv() {
+        thumbnailAdapter = ThumbnailAdapter(thumbnailCount)
+        binding?.rvThumbnails?.apply {
+            layoutManager = LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false)
+            adapter = thumbnailAdapter
+        }.also {
+            retriever = MediaMetadataRetriever()
+            retriever?.setDataSource(context, Uri.parse(videoItem.uri))
+            Coroutines.io {
+                // 提取每秒鐘的縮略圖並添加到Adapter中
+                for (i in 0 until thumbnailCount) {
+                    val time = i * 1000000L // 時間戳，單位為微秒
+                    val thumbnail: Bitmap = retriever?.getFrameAtTime(time, MediaMetadataRetriever.OPTION_CLOSEST_SYNC) ?: return@io
+                    withContext(Dispatchers.Main) {
+                        Method.logE(Tag, "thumbnail$i: $thumbnail")
+                        thumbnailAdapter.addThumbnail(thumbnail, i)
+                    }
+                }
+                retriever?.release()
             }
         }
     }

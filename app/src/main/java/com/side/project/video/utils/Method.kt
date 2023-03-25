@@ -6,9 +6,9 @@ import android.content.pm.PackageManager
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.requestPermissions
-import androidx.viewbinding.BuildConfig
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.side.project.video.BuildConfig
 import com.side.project.video.utils.Constants.PERMISSION_CODE
 
 /**
