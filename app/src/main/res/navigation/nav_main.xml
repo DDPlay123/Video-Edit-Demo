@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/videoListFragment">
+
+    <fragment
+        android:id="@+id/videoListFragment"
+        android:name="com.side.project.video.ui.fragment.VideoListFragment"
+        android:label="fragment_video_list"
+        tools:layout="@layout/fragment_video_list" >
+        <action
+            android:id="@+id/action_videoListFragment_to_videoEditFragment"
+            app:destination="@id/videoEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/videoEditFragment"
+        android:name="com.side.project.video.ui.fragment.VideoEditFragment"
+        android:label="fragment_video_edit"
+        tools:layout="@layout/fragment_video_edit" >
+    </fragment>
+
+</navigation>

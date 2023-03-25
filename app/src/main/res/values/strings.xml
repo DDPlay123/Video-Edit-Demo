@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">VideoEdit</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    
+    <string name="ask_media_permission">請開啟相關權限!</string>
+
+    <string name="title_video_list">影片列表</string>
+    <string name="title_video_edit">影片編輯</string>
 </resources>
