@@ -1,6 +1,5 @@
 package com.side.project.video.ui.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +8,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.side.project.video.R
 import com.side.project.video.databinding.FragmentVideoListBinding
-import com.side.project.video.ui.activity.VideoEditActivity
 import com.side.project.video.ui.adapter.VideoListAdapter
 import com.side.project.video.ui.fragment.VideoEditFragment.Companion.Arg_Video_Item
 import com.side.project.video.ui.fragment.other.BaseFragment
@@ -54,10 +52,7 @@ class VideoListFragment : BaseFragment<FragmentVideoListBinding>() {
             onItemClick = { item ->
                 with(Bundle()) {
                     putString(Arg_Video_Item, Method.toJsonString<VideoItem>(item))
-//                    findNavController().navigate(R.id.action_videoListFragment_to_videoEditFragment, this)
-                    startActivity(Intent(mActivity, VideoEditActivity::class.java).apply {
-                        putExtras(this)
-                    })
+                    findNavController().navigate(R.id.action_videoListFragment_to_videoEditFragment, this)
                 }
             }
         }.also { queryVideoList() }
