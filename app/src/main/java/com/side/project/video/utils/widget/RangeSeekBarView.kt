@@ -50,6 +50,7 @@ class RangeSeekBarView : View {
     private lateinit var rectPaint: Paint
 
     private var mVideoTrimTimePaintL = Paint()
+    private var mVideoTrimTimePaintC = Paint()
     private var mVideoTrimTimePaintR = Paint()
     private var mShadow = Paint()
 
@@ -69,7 +70,7 @@ class RangeSeekBarView : View {
 
     private var notifyWhileDragging = false
     private var mRangeSeekBarChangeListener: OnRangeSeekBarChangeListener? = null
-    private var whiteColorRes = context.getColorCompat(R.color.seek_bar)
+    private var colorRes = context.getColorCompat(R.color.seek_bar)
 
     enum class Thumb { MIN, MAX }
 
@@ -106,20 +107,27 @@ class RangeSeekBarView : View {
         paint = Paint(Paint.ANTI_ALIAS_FLAG)
         rectPaint = Paint(Paint.ANTI_ALIAS_FLAG)
         rectPaint.style = Paint.Style.FILL
-        rectPaint.color = whiteColorRes
+        rectPaint.color = colorRes
 
         mVideoTrimTimePaintL.strokeWidth = 3f
         mVideoTrimTimePaintL.setARGB(255, 51, 51, 51)
         mVideoTrimTimePaintL.textSize = 28f
         mVideoTrimTimePaintL.isAntiAlias = true
-        mVideoTrimTimePaintL.color = whiteColorRes
+        mVideoTrimTimePaintL.color = colorRes
         mVideoTrimTimePaintL.textAlign = Paint.Align.LEFT
+
+        mVideoTrimTimePaintC.strokeWidth = 3f
+        mVideoTrimTimePaintC.setARGB(255, 51, 51, 51)
+        mVideoTrimTimePaintC.textSize = 28f
+        mVideoTrimTimePaintC.isAntiAlias = true
+        mVideoTrimTimePaintC.color = colorRes
+        mVideoTrimTimePaintC.textAlign = Paint.Align.CENTER
 
         mVideoTrimTimePaintR.strokeWidth = 3f
         mVideoTrimTimePaintR.setARGB(255, 51, 51, 51)
         mVideoTrimTimePaintR.textSize = 28f
         mVideoTrimTimePaintR.isAntiAlias = true
-        mVideoTrimTimePaintR.color = whiteColorRes
+        mVideoTrimTimePaintR.color = colorRes
         mVideoTrimTimePaintR.textAlign = Paint.Align.RIGHT
     }
 
@@ -165,12 +173,22 @@ class RangeSeekBarView : View {
     private fun drawVideoTrimTimeText(canvas: Canvas) {
         val leftThumbsTime: String = DateUtil.convertSecondsToTime(mStartPosition)
         val rightThumbsTime: String = DateUtil.convertSecondsToTime(mEndPosition)
+        val totalTrimTime: String = (mEndPosition - mStartPosition).toString() + "s"
+        // 左邊時間
         canvas.drawText(
             leftThumbsTime,
             normalizedToScreen(normalizedMinValue),
             TextPositionY.toFloat(),
             mVideoTrimTimePaintL
         )
+        // 總裁切時間
+        canvas.drawText(
+            totalTrimTime,
+            normalizedToScreen((normalizedMaxValue + normalizedMinValue) / 2),
+            TextPositionY.toFloat(),
+            mVideoTrimTimePaintC
+        )
+        // 右邊時間
         canvas.drawText(
             rightThumbsTime,
             normalizedToScreen(normalizedMaxValue),

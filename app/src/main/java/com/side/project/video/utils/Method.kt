@@ -64,4 +64,24 @@ object Method {
         val type = object : TypeToken<T>() {}.type
         return Gson().fromJson<T>(str, type)
     }
+
+    fun convertTime(duration: Long): String {
+        try {
+            val seconds: Int
+            val minutes: Int
+            val hours: Int
+            var x: Int = duration.toInt() / 1000
+            seconds = x % 60
+            x /= 60
+            minutes = x % 60
+            x /= 60
+            hours = x % 24
+            return if (hours != 0)
+                String.format("%02d", hours) + ":" + String.format("%02d", minutes) + ":" + String.format("%02d", seconds)
+            else
+                String.format("%02d", minutes) + ":" + String.format("%02d", seconds)
+        } catch (ignored: Exception) {
+            return "00:00"
+        }
+    }
 }
