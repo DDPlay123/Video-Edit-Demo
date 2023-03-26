@@ -1,9 +1,16 @@
 <resources>
     <string name="app_name">VideoEdit</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    
+
     <string name="ask_media_permission">請開啟相關權限!</string>
 
     <string name="title_video_list">影片列表</string>
     <string name="title_video_edit">影片編輯</string>
+    <string name="title_video_preview">影片預覽</string>
+
+    <string name="text_drag">拖動選擇%d秒內的片段</string>
+    <string name="text_last_trim">影片長不足1秒,無法上傳</string>
+    <string name="text_cancel">取消</string>
+    <string name="text_trim_start">開始剪輯</string>
+    <string name="text_trim_end">結束剪輯</string>
 </resources>

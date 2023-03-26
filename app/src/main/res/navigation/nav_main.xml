@@ -19,6 +19,18 @@
         android:name="com.side.project.video.ui.fragment.VideoEditFragment"
         android:label="fragment_video_edit"
         tools:layout="@layout/fragment_video_edit" >
+        <action
+            android:id="@+id/action_videoEditFragment_to_videoPreviewFragment"
+            app:destination="@id/videoPreviewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/videoPreviewFragment"
+        android:name="com.side.project.video.ui.fragment.VideoPreviewFragment"
+        android:label="fragment_video_preview"
+        tools:layout="@layout/fragment_video_preview" >
+        <action
+            android:id="@+id/action_videoPreviewFragment_to_videoListFragment"
+            app:destination="@id/videoListFragment" />
     </fragment>
 
 </navigation>
