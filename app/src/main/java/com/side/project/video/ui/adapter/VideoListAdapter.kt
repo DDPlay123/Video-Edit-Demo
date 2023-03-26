@@ -6,6 +6,7 @@ import com.side.project.video.R
 import com.side.project.video.databinding.ItemVideoListBinding
 import com.side.project.video.ui.adapter.other.BaseRvListAdapter
 import com.side.project.video.utils.AsyncImageLoader
+import com.side.project.video.utils.Method
 import com.side.project.video.utils.VideoItem
 
 class VideoListAdapter : BaseRvListAdapter<ItemVideoListBinding, VideoItem>(R.layout.item_video_list) {
@@ -19,28 +20,8 @@ class VideoListAdapter : BaseRvListAdapter<ItemVideoListBinding, VideoItem>(R.la
 
         binding.apply {
             AsyncImageLoader.loadImage(imgPicture, item.uri)
-            tvDuration.text = convertTime(item.duration)
+            tvDuration.text = Method.convertTime(item.duration.toLong())
             root.setOnClickListener { onItemClick(item) }
-        }
-    }
-
-    private fun convertTime(duration: String): String {
-        try {
-            val seconds: Int
-            val minutes: Int
-            val hours: Int
-            var x: Int = duration.toInt() / 1000
-            seconds = x % 60
-            x /= 60
-            minutes = x % 60
-            x /= 60
-            hours = x % 24
-            return if (hours != 0)
-                String.format("%02d", hours) + ":" + String.format("%02d", minutes) + ":" + String.format("%02d", seconds)
-            else
-                String.format("%02d", minutes) + ":" + String.format("%02d", seconds)
-        } catch (ignored: Exception) {
-            return "00:00"
         }
     }
 }

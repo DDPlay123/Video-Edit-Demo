@@ -196,6 +196,7 @@ class VideoEditFragment : BaseFragment<FragmentVideoEditBinding>() {
                 mThumbsTotalCount = ((mDuration * 1.0f / (MAX_SHOOT_DURATION * 1.0f) * MAX_COUNT_RANGE).toInt())
                 mRightProgressPos = MAX_SHOOT_DURATION
             }
+            syncStartEndDuration()
             rvThumbnails.addItemDecoration(SpacesItemDecoration(RECYCLER_VIEW_PADDING, mThumbsTotalCount))
             mRangeSeekBarView = RangeSeekBarView(mActivity, mLeftProgressPos, mRightProgressPos)
             mRangeSeekBarView.setSelectedMinValue(mLeftProgressPos)
@@ -378,6 +379,7 @@ class VideoEditFragment : BaseFragment<FragmentVideoEditBinding>() {
                     mRangeSeekBarView.invalidate()
                 }
                 lastScrollX = scrollX
+                syncStartEndDuration()
             }
         }
     }
@@ -426,6 +428,7 @@ class VideoEditFragment : BaseFragment<FragmentVideoEditBinding>() {
                 else -> Unit
             }
 
+            syncStartEndDuration()
             mRangeSeekBarView.setStartEndTime(mLeftProgressPos, mRightProgressPos)
         }
     }
@@ -446,6 +449,13 @@ class VideoEditFragment : BaseFragment<FragmentVideoEditBinding>() {
             } else {
                 mAnimationHandler.post(mAnimationRunnable)
             }
+        }
+    }
+
+    private fun syncStartEndDuration() {
+        binding?.run {
+            tvStartDuration.text = Method.convertTime(mLeftProgressPos)
+            tvEndDuration.text = Method.convertTime(mRightProgressPos)
         }
     }
 
