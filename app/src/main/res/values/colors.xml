@@ -13,6 +13,8 @@
     <color name="accent">#FF7103</color>
     <color name="accent_dark">#C55905</color>
 
+    <color name="seek_bar">#FFC637</color>
+
     <color name="black_000000_50">#80000000</color>
     <color name="black_000000_70">#7F000000</color>
 </resources>
