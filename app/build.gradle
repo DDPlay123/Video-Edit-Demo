@@ -61,5 +61,9 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
     // Gson (https://github.com/google/gson)
     implementation 'com.google.code.gson:gson:2.10.1'
+    // ExoPlayer (https://github.com/google/ExoPlayer)
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.18.5'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.18.5'
+    implementation 'com.google.android.exoplayer:exoplayer-smoothstreaming:2.18.5'
     // endregion
 }

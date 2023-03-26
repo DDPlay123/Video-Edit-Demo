@@ -33,6 +33,21 @@ object AsyncImageLoader {
             .dontAnimate()).into(imageView)
     }
 
+    fun loadImage(imageView: ImageView?, any: Any) {
+        if (imageView == null) return
+
+        val context = WeakReference(imageView.context)
+
+        val activity = if (context.get() is Activity) {
+            context.takeIf { !(it.get() as Activity).isDestroyed } ?: return
+        } else
+            return
+
+        Glide.with(activity.get() ?: return).load(any).apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)
+            .placeholder(R.drawable.img_placeholder).error(R.drawable.img_placeholder)
+            .dontAnimate()).into(imageView)
+    }
+
     /**
      * Glide 清空所有圖片
      * @param imageView ImageView
