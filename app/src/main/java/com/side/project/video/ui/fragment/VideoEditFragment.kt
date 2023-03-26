@@ -175,10 +175,10 @@ class VideoEditFragment : BaseFragment<FragmentVideoEditBinding>() {
             videoView.layoutParams = lp
             mDuration = videoView.duration
             if (!isFromRestore) {
-                seekTo(mRedProgressBarPos.toInt().toLong())
+                seekTo(mRedProgressBarPos)
             } else {
                 isFromRestore = false
-                seekTo(mRedProgressBarPos.toInt().toLong())
+                seekTo(mRedProgressBarPos)
             }
             initRangeSeekBarView()
             startShootVideoThumbs(mActivity, Uri.parse(videoItem.uri), mThumbsTotalCount, 0, mDuration.toLong())
@@ -412,12 +412,15 @@ class VideoEditFragment : BaseFragment<FragmentVideoEditBinding>() {
 
                 MotionEvent.ACTION_MOVE -> {
                     isSeeking = true
-                    seekTo((if (pressedThumb === RangeSeekBarView.Thumb.MIN) mLeftProgressPos else mRightProgressPos))
+                    mRedProgressBarPos = mLeftProgressPos
+                    pauseRedProgressAnimation()
+                    onVideoPause()
+                    seekTo((if (pressedThumb == RangeSeekBarView.Thumb.MIN) mLeftProgressPos else mRightProgressPos))
                 }
 
                 MotionEvent.ACTION_UP -> {
                     isSeeking = false
-                    seekTo(mLeftProgressPos.toInt().toLong())
+                    seekTo(mLeftProgressPos)
                 }
 
                 else -> Unit

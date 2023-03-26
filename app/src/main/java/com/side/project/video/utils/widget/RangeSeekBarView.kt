@@ -69,7 +69,7 @@ class RangeSeekBarView : View {
 
     private var notifyWhileDragging = false
     private var mRangeSeekBarChangeListener: OnRangeSeekBarChangeListener? = null
-    private var whiteColorRes = context.getColorCompat(R.color.white)
+    private var whiteColorRes = context.getColorCompat(R.color.seek_bar)
 
     enum class Thumb { MIN, MAX }
 
@@ -83,12 +83,12 @@ class RangeSeekBarView : View {
 
     private fun init() {
         mScaledTouchSlop = ViewConfiguration.get(context).scaledTouchSlop
-        thumbImageLeft = BitmapFactory.decodeResource(resources, R.drawable.img_video_thumb_handle)
+        thumbImageLeft = BitmapFactory.decodeResource(resources, R.drawable.img_video_thumb_handle2)
 
         val width = thumbImageLeft.width
         val height = thumbImageLeft.height
-        val newWidth = UnitConverter.dpToPx(11)
-        val newHeight = UnitConverter.dpToPx(55)
+        val newWidth = UnitConverter.dpToPx(15)
+        val newHeight = UnitConverter.dpToPx(75)
         val scaleWidth = newWidth * 1.0f / width
         val scaleHeight = newHeight * 1.0f / height
         val matrix = Matrix()
